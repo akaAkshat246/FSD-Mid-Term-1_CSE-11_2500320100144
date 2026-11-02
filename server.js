@@ -92,7 +92,8 @@ const getBookByIdHandler = (req, res) => {
   const book = books.find(b => String(b.id) === String(id));
   if (!book) {
     return res.status(404).json({
-      error: 'Book not found'
+      message: 'Book not found',
+      error: `No book found with id ${id}`
     });
   }
   return res.status(200).json(book);
