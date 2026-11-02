@@ -136,7 +136,16 @@ const returnBook = (req, res) => {
     return res.status(404).json({ message: 'Book not found' });
   }
 
-  res.status(200).json({ message: 'Book return endpoint' });
+  if (book.availability >= book.quantity) {
+    return res.status(400).json({ error: 'Cannot return book: all copies are already returned' });
+  }
+
+  book.availability += 1;
+  res.status(200).json({
+    message: 'Book returned successfully',
+    availability: book.availability,
+    book
+  });
 };
 
 app.post('/api/books/:id/return', returnBook);
