@@ -29,13 +29,13 @@ Mid-Term 1/
 
 ---
 
-## Task 2: Add New Book (POST /books)
+## Task 2: Add New Book (POST /api/books)
 
 Accepts book details in the request body, validates required fields and quantity/availability values, prevents duplicate book IDs, saves the book, and returns a success response.
 
 ### Endpoint:
 - **Method:** `POST`
-- **URL:** `/books`, `/api/books`
+- **URL:** `/api/books`
 
 ### Request Body Example:
 ```json
@@ -70,12 +70,12 @@ Accepts book details in the request body, validates required fields and quantity
 
 ### 1. Retrieve All Books
 - **Method:** `GET`
-- **URL:** `/api/books` (also `/books`)
+- **URL:** `/api/books`
 - **Success Response (`200 OK`):** Returns array of all books.
 
 ### 2. Retrieve Book by ID
 - **Method:** `GET`
-- **URL:** `/api/books/:id` (also `/books/:id`)
+- **URL:** `/api/books/:id`
 - **Success Response (`200 OK`):** Returns the matched book object.
 - **Error Response (`404 Not Found`):** If book does not exist.
 
@@ -85,44 +85,34 @@ Accepts book details in the request body, validates required fields and quantity
 
 ### 1. Update Book Details
 - **Method:** `PUT`
-- **URL:** `/api/books/:id` (also `/books/:id`)
+- **URL:** `/api/books/:id`
 - **Rules:**
-  - Finds the book using the URL ID.
-  - Updates formatted book details using request body.
-  - **Does not allow book ID to be changed** (returns `400 Bad Request` if changed).
-  - Returns `404 Not Found` if the book does not exist.
-  - Validates `quantity` and `availability` (`availability <= quantity`).
-
-#### Success Response (`200 OK`):
-```json
-{
-  "message": "Book updated successfully",
-  "book": {
-    "id": 101,
-    "title": "Java Programming 12th Edition",
-    "author": "Herbert Schildt",
-    "category": "Programming",
-    "quantity": 8,
-    "availability": 8
-  }
-}
-```
+  - Updates formatted book details.
+  - **Does not allow book ID to be changed** (`400 Bad Request`).
+  - Returns `404 Not Found` if book does not exist.
 
 ### 2. Delete a Book
 - **Method:** `DELETE`
-- **URL:** `/api/books/:id` (also `/books/:id`)
+- **URL:** `/api/books/:id`
 - **Rules:**
-  - Finds and deletes the specified book.
-  - **Conditional Deletion:** Does not delete a book when `available < quantity` (copies currently borrowed/issued), returning `400 Bad Request`.
-  - Returns `404 Not Found` if the book does not exist.
-  - Returns available, success, and deleted book details upon deletion.
+  - Deletes the specified book.
+  - **Conditional Deletion:** Cannot delete if `available < quantity` (`400 Bad Request`).
+  - Returns `404 Not Found` if book does not exist.
 
-#### Success Response (`200 OK`):
+---
+
+## Task 6: Search Books by Title
+
+Search books using the `title` query parameter or path format with case-insensitive matching.
+
+### Endpoint:
+- **Method:** `GET`
+- **URL:** `/api/books/search?title=java` (also `/api/books/search/title=java`)
+
+### Success Response (`200 OK`):
 ```json
-{
-  "message": "Book deleted successfully",
-  "available": 5,
-  "book": {
+[
+  {
     "id": 101,
     "title": "Java Programming",
     "author": "Herbert Schildt",
@@ -130,15 +120,13 @@ Accepts book details in the request body, validates required fields and quantity
     "quantity": 5,
     "availability": 5
   }
-}
+]
 ```
 
-#### Error Response when copies are borrowed (`400 Bad Request`):
+### Not Found Response (`404 Not Found`):
 ```json
 {
-  "error": "Cannot delete book: available is less than quantity",
-  "available": 3,
-  "quantity": 5
+  "message": "No books found matching search criteria"
 }
 ```
 
