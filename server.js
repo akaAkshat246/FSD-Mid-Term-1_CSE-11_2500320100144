@@ -206,9 +206,21 @@ const deleteBookHandler = (req, res) => {
     });
   }
 
+  const bookToDelete = books[bookIndex];
+
+  // Do not delete a book when available is less than quantity
+  if (bookToDelete.availability < bookToDelete.quantity) {
+    return res.status(400).json({
+      error: 'Cannot delete book: available is less than quantity',
+      available: bookToDelete.availability,
+      quantity: bookToDelete.quantity
+    });
+  }
+
   const [deletedBook] = books.splice(bookIndex, 1);
   return res.status(200).json({
     message: 'Book deleted successfully',
+    available: deletedBook.availability,
     book: deletedBook
   });
 };
