@@ -118,7 +118,12 @@ const issueBook = (req, res) => {
     return res.status(400).json({ error: 'Book is not available for issue' });
   }
 
-  res.status(200).json({ message: 'Book is available', availability: book.availability });
+  book.availability -= 1;
+  res.status(200).json({
+    message: 'Book issued successfully',
+    availability: book.availability,
+    book
+  });
 };
 
 app.post('/api/books/:id', issueBook);
