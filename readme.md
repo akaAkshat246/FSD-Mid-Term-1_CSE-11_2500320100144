@@ -109,26 +109,25 @@ Search books using the `title` query parameter or path format with case-insensit
 - **Method:** `GET`
 - **URL:** `/api/books/search?title=java` (also `/api/books/search/title=java`)
 
-### Success Response (`200 OK`):
-```json
-[
-  {
-    "id": 101,
-    "title": "Java Programming",
-    "author": "Herbert Schildt",
-    "category": "Programming",
-    "quantity": 5,
-    "availability": 5
-  }
-]
-```
+---
 
-### Not Found Response (`404 Not Found`):
-```json
-{
-  "message": "No books found matching search criteria"
-}
-```
+## Task 7: Issue and Return Book
+
+### 1. Issue a Book
+- **Method:** `POST`
+- **URL:** `/api/books/:id` (also `/api/books/:id/issue`)
+- **Rules:**
+  - Checks if the book exists (`404 Not Found` if missing).
+  - Determines availability: if `availability <= 0`, returns `400 Bad Request` ("Book is not available for issue").
+  - On success: decreases `availability` by 1 and returns `200 OK` with updated details.
+
+### 2. Return a Book
+- **Method:** `POST`
+- **URL:** `/api/books/:id/return`
+- **Rules:**
+  - Checks whether the book exists (`404 Not Found` if missing).
+  - Checks bounds: cannot return if `availability >= quantity` (`400 Bad Request`).
+  - On success: increases `availability` by 1 and returns `200 OK` with updated details.
 
 ---
 
