@@ -45,6 +45,13 @@ app.get('/api/books', (req, res) => {
   res.status(200).json(books);
 });
 
+// Task 6: Search books by title
+app.get('/api/books/search', (req, res) => {
+  const { title } = req.query;
+  const results = books.filter(b => b.title.includes(title));
+  res.status(200).json(results);
+});
+
 // Task 3: Retrieve book by ID
 app.get('/api/books/:id', (req, res) => {
   const book = books.find(b => b.id == req.params.id);
