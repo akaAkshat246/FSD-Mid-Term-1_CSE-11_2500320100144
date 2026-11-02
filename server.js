@@ -6,7 +6,7 @@ app.use(express.json());
 
 let books = [];
 
-// Task 1: Initialize server and root route
+// Task 1: Root route
 app.get('/', (req, res) => {
   res.send('Library API is running');
 });
@@ -46,23 +46,17 @@ app.get('/api/books', (req, res) => {
 });
 
 // Task 6: Search books by title
-app.get('/api/books/search', (req, res) => {
-  const { title } = req.query;
-  const queryTitle = (title || '').toLowerCase();
-  const results = books.filter(b => b.title.toLowerCase().includes(queryTitle));
+const searchBooks = (title, res) => {
+  const query = (title || '').toLowerCase();
+  const results = books.filter(b => b.title.toLowerCase().includes(query));
   if (results.length === 0) {
     return res.status(404).json({ message: 'No books found matching search criteria' });
   }
   res.status(200).json(results);
-});
-app.get('/api/books/search/title=:title', (req, res) => {
-  const queryTitle = (req.params.title || '').toLowerCase();
-  const results = books.filter(b => b.title.toLowerCase().includes(queryTitle));
-  if (results.length === 0) {
-    return res.status(404).json({ message: 'No books found matching search criteria' });
-  }
-  res.status(200).json(results);
-});
+};
+
+app.get('/api/books/search', (req, res) => searchBooks(req.query.title, res));
+app.get('/api/books/search/title=:title', (req, res) => searchBooks(req.params.title, res));
 
 // Task 3: Retrieve book by ID
 app.get('/api/books/:id', (req, res) => {
