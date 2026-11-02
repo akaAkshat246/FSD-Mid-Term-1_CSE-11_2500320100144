@@ -7,7 +7,7 @@
 
 ---
 
-## Project Structure
+## Folder Structure
 
 ```text
 Mid-Term 1/
@@ -20,34 +20,28 @@ Mid-Term 1/
 
 ---
 
-## Getting Started
+## Task 1: Initialize the Express Application
 
-### 1. Prerequisites
-- Node.js (v18+)
-- npm
+### Completed Requirements:
+- **Project Initialization:** Initialized Node.js project using `npm init`.
+- **Express JS Configuration:** Installed Express (`^5.3.0`) and imported it in `server.js`.
+- **Port Configuration:** Server runs on default port `3000` (or `process.env.PORT`).
+- **Middleware:** Configured Express JSON middleware via `app.use(express.json())`.
 
-### 2. Installation
-Install the dependencies:
-```bash
-npm install
-```
-
-### 3. Run the Server
-To start the server:
-```bash
-npm start
-```
-
-For development mode (with watch mode):
-```bash
-npm run dev
-```
-
-The server will be available at: `http://localhost:3000`
-
----
-
-## API Endpoints
-
-- `GET /`: Returns welcome message, student details, and server status.
-- `GET /health`: Health check endpoint.
+### How to Run:
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the server:
+   ```bash
+   npm start
+   ```
+   Or with watch mode:
+   ```bash
+   npm run dev
+   ```
+3. Test the server:
+   ```bash
+   curl http://localhost:3000/
+   ```

@@ -1,33 +1,31 @@
 const express = require('express');
 
+// Task 1: Initialize Express application
 const app = express();
+
+// Default configuration port: 3000
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// Configure Express JSON middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Root route
 app.get('/', (req, res) => {
   res.status(200).json({
-    message: 'Welcome to FSD Mid-Term 1 API',
+    message: 'Express application initialized successfully',
     student: {
       name: 'Akshat Vats',
       rollNo: '2500320100144',
       section: 'CSE-11'
     },
-    status: 'Server is running successfully'
+    port: PORT
   });
 });
 
-// Health check route
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK', uptime: process.uptime() });
-});
-
-// Start server
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
 
 module.exports = app;
