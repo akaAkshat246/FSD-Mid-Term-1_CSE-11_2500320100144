@@ -50,6 +50,9 @@ app.get('/api/books/search', (req, res) => {
   const { title } = req.query;
   const queryTitle = (title || '').toLowerCase();
   const results = books.filter(b => b.title.toLowerCase().includes(queryTitle));
+  if (results.length === 0) {
+    return res.status(404).json({ message: 'No books found matching search criteria' });
+  }
   res.status(200).json(results);
 });
 
