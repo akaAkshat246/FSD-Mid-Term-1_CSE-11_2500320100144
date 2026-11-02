@@ -107,6 +107,15 @@ app.delete('/api/books/:id', (req, res) => {
   res.status(200).json({ message: 'Book deleted successfully', available: book.availability });
 });
 
+// Task 7: Issue a book
+const issueBook = (req, res) => {
+  const book = books.find(b => b.id == req.params.id);
+  res.status(200).json({ message: 'Issue book handler' });
+};
+
+app.post('/api/books/:id', issueBook);
+app.post('/api/books/:id/issue', issueBook);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
