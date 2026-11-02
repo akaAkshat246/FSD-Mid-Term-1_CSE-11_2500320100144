@@ -129,6 +129,18 @@ const issueBook = (req, res) => {
 app.post('/api/books/:id', issueBook);
 app.post('/api/books/:id/issue', issueBook);
 
+// Task 7: Return a book
+const returnBook = (req, res) => {
+  const book = books.find(b => b.id == req.params.id);
+  if (!book) {
+    return res.status(404).json({ message: 'Book not found' });
+  }
+
+  res.status(200).json({ message: 'Book return endpoint' });
+};
+
+app.post('/api/books/:id/return', returnBook);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
