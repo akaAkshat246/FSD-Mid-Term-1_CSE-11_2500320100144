@@ -110,7 +110,15 @@ app.delete('/api/books/:id', (req, res) => {
 // Task 7: Issue a book
 const issueBook = (req, res) => {
   const book = books.find(b => b.id == req.params.id);
-  res.status(200).json({ message: 'Issue book handler' });
+  if (!book) {
+    return res.status(404).json({ message: 'Book not found' });
+  }
+
+  if (book.availability <= 0) {
+    return res.status(400).json({ error: 'Book is not available for issue' });
+  }
+
+  res.status(200).json({ message: 'Book is available', availability: book.availability });
 };
 
 app.post('/api/books/:id', issueBook);
