@@ -125,19 +125,64 @@ const updateBookHandler = (req, res) => {
     });
   }
 
+  const {
+    id: bodyId, iD, ID, bookId,
+    title, Title,
+    author, Author,
+    category, Category,
+    quantity, Quantity,
+    availability, Availability
+  } = req.body;
+
+  // Do not allow book ID to be changed
+  const requestedId = bodyId ?? iD ?? ID ?? bookId;
+  if (requestedId !== undefined && requestedId !== null && String(requestedId) !== trimmedId) {
+    return res.status(400).json({
+      error: 'Book ID cannot be changed'
+    });
+  }
+
   const existingBook = books[bookIndex];
-  const { title, Title, author, Author, category, Category, quantity, Quantity, availability, Availability } = req.body;
 
-  existingBook.title = title ?? Title ?? existingBook.title;
-  existingBook.author = author ?? Author ?? existingBook.author;
-  existingBook.category = category ?? Category ?? existingBook.category;
+  // Validate new quantity and availability if provided
+  const newQuantity = (quantity !== undefined || Quantity !== undefined)
+    ? Number(quantity ?? Quantity)
+    : existingBook.quantity;
 
-  if (quantity !== undefined || Quantity !== undefined) {
-    existingBook.quantity = Number(quantity ?? Quantity);
+  const newAvailability = (availability !== undefined || Availability !== undefined)
+    ? Number(availability ?? Availability)
+    : existingBook.availability;
+
+  if (isNaN(newQuantity) || newQuantity < 0) {
+    return res.status(400).json({
+      error: 'Quantity must be a valid non-negative number'
+    });
   }
-  if (availability !== undefined || Availability !== undefined) {
-    existingBook.availability = Number(availability ?? Availability);
+
+  if (isNaN(newAvailability) || newAvailability < 0) {
+    return res.status(400).json({
+      error: 'Availability must be a valid non-negative number'
+    });
   }
+
+  if (newAvailability > newQuantity) {
+    return res.status(400).json({
+      error: 'Availability cannot exceed total quantity'
+    });
+  }
+
+  // Update fields
+  if (title !== undefined || Title !== undefined) {
+    existingBook.title = String(title ?? Title).trim();
+  }
+  if (author !== undefined || Author !== undefined) {
+    existingBook.author = String(author ?? Author).trim();
+  }
+  if (category !== undefined || Category !== undefined) {
+    existingBook.category = String(category ?? Category).trim();
+  }
+  existingBook.quantity = newQuantity;
+  existingBook.availability = newAvailability;
 
   return res.status(200).json({
     message: 'Book updated successfully',
