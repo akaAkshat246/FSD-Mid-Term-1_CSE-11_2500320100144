@@ -1,0 +1,30 @@
+{
+  "name": "fsd-mid-term-1",
+  "version": "1.0.0",
+  "description": "FSD Mid-Term 1 - CSE-11 - 2500320100144",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akaAkshat246/FSD-Mid-Term-1_CSE-11_2500320100144.git"
+  },
+  "keywords": [
+    "fsd",
+    "express",
+    "nodejs"
+  ],
+  "author": "Akshat Vats",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/akaAkshat246/FSD-Mid-Term-1_CSE-11_2500320100144/issues"
+  },
+  "homepage": "https://github.com/akaAkshat246/FSD-Mid-Term-1_CSE-11_2500320100144#readme",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
