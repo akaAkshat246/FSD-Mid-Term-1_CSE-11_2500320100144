@@ -89,11 +89,19 @@ const getAllBooksHandler = (req, res) => {
 
 const getBookByIdHandler = (req, res) => {
   const { id } = req.params;
-  const book = books.find(b => String(b.id) === String(id));
+  const trimmedId = id ? String(id).trim() : '';
+
+  if (!trimmedId) {
+    return res.status(400).json({
+      error: 'Book id parameter is required'
+    });
+  }
+
+  const book = books.find(b => String(b.id) === trimmedId);
   if (!book) {
     return res.status(404).json({
       message: 'Book not found',
-      error: `No book found with id ${id}`
+      error: `No book found with id ${trimmedId}`
     });
   }
   return res.status(200).json(book);
