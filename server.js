@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(express.json());
 
+// In-memory data storage
 let books = [];
 
-// Task 1: Root route
+// Root route
 app.get('/', (req, res) => {
   res.send('Library API is running');
 });
@@ -150,6 +152,7 @@ const returnBook = (req, res) => {
 
 app.post('/api/books/:id/return', returnBook);
 
+// Server startup
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
