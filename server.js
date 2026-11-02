@@ -87,8 +87,21 @@ const getAllBooksHandler = (req, res) => {
   return res.status(200).json(books);
 };
 
+const getBookByIdHandler = (req, res) => {
+  const { id } = req.params;
+  const book = books.find(b => String(b.id) === String(id));
+  if (!book) {
+    return res.status(404).json({
+      error: 'Book not found'
+    });
+  }
+  return res.status(200).json(book);
+};
+
 app.get('/api/books', getAllBooksHandler);
 app.get('/books', getAllBooksHandler);
+app.get('/api/books/:id', getBookByIdHandler);
+app.get('/books/:id', getBookByIdHandler);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
