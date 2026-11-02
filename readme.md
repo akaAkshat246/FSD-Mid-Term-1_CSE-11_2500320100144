@@ -22,26 +22,58 @@ Mid-Term 1/
 
 ## Task 1: Initialize the Express Application
 
-### Completed Requirements:
-- **Project Initialization:** Initialized Node.js project using `npm init`.
-- **Express JS Configuration:** Installed Express (`^5.3.0`) and imported it in `server.js`.
-- **Port Configuration:** Server runs on default port `3000` (or `process.env.PORT`).
-- **Middleware:** Configured Express JSON middleware via `app.use(express.json())`.
+- Project initialized with `npm init`.
+- Express JS installed and configured.
+- Default port: `3000`.
+- Configured Express JSON middleware (`app.use(express.json())`).
 
-### How to Run:
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start the server:
-   ```bash
-   npm start
-   ```
-   Or with watch mode:
-   ```bash
-   npm run dev
-   ```
-3. Test the server:
-   ```bash
-   curl http://localhost:3000/
-   ```
+---
+
+## Task 2: Add New Book (POST /books)
+
+Accepts book details in the request body, validates required fields and quantity/availability values, prevents duplicate book IDs, saves the book, and returns a success response.
+
+### Endpoint:
+- **Method:** `POST`
+- **URL:** `/books` (also available on `/api/books`, `/book`)
+
+### Request Body Example:
+```json
+{
+  "id": 101,
+  "title": "Java Programming",
+  "author": "Herbert Schildt",
+  "category": "Programming",
+  "quantity": 5,
+  "availability": 5
+}
+```
+
+### Success Response (`201 Created`):
+```json
+{
+  "message": "Book added successfully",
+  "book": {
+    "id": 101,
+    "title": "Java Programming",
+    "author": "Herbert Schildt",
+    "category": "Programming",
+    "quantity": 5,
+    "availability": 5
+  }
+}
+```
+
+### Validation & Error Handling:
+- Missing required fields: Returns `400 Bad Request`
+- Invalid quantity or availability (< 0 or availability > quantity): Returns `400 Bad Request`
+- Duplicate book ID: Returns `409 Conflict`
+
+---
+
+## Running the Project
+
+```bash
+npm install
+npm start
+```
