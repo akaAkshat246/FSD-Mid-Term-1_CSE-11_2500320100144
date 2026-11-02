@@ -35,7 +35,7 @@ Accepts book details in the request body, validates required fields and quantity
 
 ### Endpoint:
 - **Method:** `POST`
-- **URL:** `/books` (also available on `/api/books`, `/book`)
+- **URL:** `/books`, `/api/books`
 
 ### Request Body Example:
 ```json
@@ -64,10 +64,50 @@ Accepts book details in the request body, validates required fields and quantity
 }
 ```
 
-### Validation & Error Handling:
-- Missing required fields: Returns `400 Bad Request`
-- Invalid quantity or availability (< 0 or availability > quantity): Returns `400 Bad Request`
-- Duplicate book ID: Returns `409 Conflict`
+---
+
+## Task 3: Retrieve Books
+
+### 1. Retrieve All Books
+- **Method:** `GET`
+- **URL:** `/api/books` (also available on `/books`)
+- **Description:** Returns all books from the collection.
+- **Success Response (`200 OK`):**
+```json
+[
+  {
+    "id": 101,
+    "title": "Java Programming",
+    "author": "Herbert Schildt",
+    "category": "Programming",
+    "quantity": 5,
+    "availability": 5
+  }
+]
+```
+
+### 2. Retrieve Book by ID
+- **Method:** `GET`
+- **URL:** `/api/books/:id` (also available on `/books/:id`)
+- **Description:** Returns a specified book by its ID or an appropriate not-found response.
+- **Success Response (`200 OK`):**
+```json
+{
+  "id": 101,
+  "title": "Java Programming",
+  "author": "Herbert Schildt",
+  "category": "Programming",
+  "quantity": 5,
+  "availability": 5
+}
+```
+- **Error Response (`404 Not Found`):**
+```json
+{
+  "message": "Book not found",
+  "error": "No book found with id 999"
+}
+```
 
 ---
 
