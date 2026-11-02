@@ -55,6 +55,14 @@ app.get('/api/books/search', (req, res) => {
   }
   res.status(200).json(results);
 });
+app.get('/api/books/search/title=:title', (req, res) => {
+  const queryTitle = (req.params.title || '').toLowerCase();
+  const results = books.filter(b => b.title.toLowerCase().includes(queryTitle));
+  if (results.length === 0) {
+    return res.status(404).json({ message: 'No books found matching search criteria' });
+  }
+  res.status(200).json(results);
+});
 
 // Task 3: Retrieve book by ID
 app.get('/api/books/:id', (req, res) => {
