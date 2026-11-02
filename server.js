@@ -48,7 +48,8 @@ app.get('/api/books', (req, res) => {
 // Task 6: Search books by title
 app.get('/api/books/search', (req, res) => {
   const { title } = req.query;
-  const results = books.filter(b => b.title.includes(title));
+  const queryTitle = (title || '').toLowerCase();
+  const results = books.filter(b => b.title.toLowerCase().includes(queryTitle));
   res.status(200).json(results);
 });
 
