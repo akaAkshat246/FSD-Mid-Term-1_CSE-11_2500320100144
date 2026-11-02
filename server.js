@@ -111,6 +111,42 @@ app.get('/api/books', getAllBooksHandler);
 app.get('/books', getAllBooksHandler);
 app.get('/api/books/:id', getBookByIdHandler);
 app.get('/books/:id', getBookByIdHandler);
+
+// Task 4: Update book details
+const updateBookHandler = (req, res) => {
+  const { id } = req.params;
+  const trimmedId = id ? String(id).trim() : '';
+
+  const bookIndex = books.findIndex(b => String(b.id) === trimmedId);
+  if (bookIndex === -1) {
+    return res.status(404).json({
+      message: 'Book not found',
+      error: `No book found with id ${trimmedId}`
+    });
+  }
+
+  const existingBook = books[bookIndex];
+  const { title, Title, author, Author, category, Category, quantity, Quantity, availability, Availability } = req.body;
+
+  existingBook.title = title ?? Title ?? existingBook.title;
+  existingBook.author = author ?? Author ?? existingBook.author;
+  existingBook.category = category ?? Category ?? existingBook.category;
+
+  if (quantity !== undefined || Quantity !== undefined) {
+    existingBook.quantity = Number(quantity ?? Quantity);
+  }
+  if (availability !== undefined || Availability !== undefined) {
+    existingBook.availability = Number(availability ?? Availability);
+  }
+
+  return res.status(200).json({
+    message: 'Book updated successfully',
+    book: existingBook
+  });
+};
+
+app.put('/api/books/:id', updateBookHandler);
+app.put('/books/:id', updateBookHandler);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
