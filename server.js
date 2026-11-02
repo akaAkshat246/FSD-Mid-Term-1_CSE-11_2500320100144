@@ -192,6 +192,29 @@ const updateBookHandler = (req, res) => {
 
 app.put('/api/books/:id', updateBookHandler);
 app.put('/books/:id', updateBookHandler);
+
+// Task 4: Delete a book
+const deleteBookHandler = (req, res) => {
+  const { id } = req.params;
+  const trimmedId = id ? String(id).trim() : '';
+
+  const bookIndex = books.findIndex(b => String(b.id) === trimmedId);
+  if (bookIndex === -1) {
+    return res.status(404).json({
+      message: 'Book not found',
+      error: `No book found with id ${trimmedId}`
+    });
+  }
+
+  const [deletedBook] = books.splice(bookIndex, 1);
+  return res.status(200).json({
+    message: 'Book deleted successfully',
+    book: deletedBook
+  });
+};
+
+app.delete('/api/books/:id', deleteBookHandler);
+app.delete('/books/:id', deleteBookHandler);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
